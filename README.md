@@ -1,10 +1,10 @@
-# 🔍 DigiNsure OCR — Multi-Modal Insurance Document Classifier
+# DigiNsure OCR — Multi-Modal Insurance Document Classifier
 
 > A PyTorch OCR model that classifies scanned insurance IDs as **primary** or **secondary** using both image data and insurance type — built for DigiNsure Inc.'s document digitisation initiative.
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [Overview](#overview)
 - [What I Learned](#what-i-learned)
@@ -33,10 +33,10 @@ Multi-modal learning lets the model capture nuances that neither the image nor t
 
 This was my first hands-on project combining **computer vision** and **text features** in a single PyTorch model. Here are the main takeaways:
 
-### 🧠 Multi-Modal Fusion
+### Multi-Modal Fusion
 Using two different data types (image + categorical text) as inputs to one model. Each modality gets its own processing branch, and the features are **concatenated before the classifier** — this is called *late fusion*.
 
-### 🖼️ Convolutional Layers
+### Convolutional Layers
 `Conv2d` slides learnable filters over an image to detect local patterns (edges, curves, character strokes). Key parameters I worked with:
 
 | Parameter | Value | Why |
@@ -46,7 +46,7 @@ Using two different data types (image + categorical text) as inputs to one model
 | `kernel_size` | 3 | Look at 3×3 pixel patches |
 | `padding` | 1 | Preserve 64×64 spatial size after conv |
 
-### 📐 Tensor Shape Tracking
+### Tensor Shape Tracking
 One of the most important debugging habits — tracing shapes through every layer:
 
 ```
@@ -56,13 +56,13 @@ MaxPool2d(2) →  (B, 16, 32, 32)   # halves spatial dims
 Flatten      →  (B, 16384)         # 16 × 32 × 32
 ```
 
-### 🔀 Late Fusion with `torch.cat`
+### Late Fusion with `torch.cat`
 ```python
 combined = torch.cat([img_feat, type_feat], dim=1)  # (B, 16400)
 ```
 `dim=1` concatenates along the **feature dimension**, not the batch — B stays the same.
 
-### 🛡️ Safe File Handling
+### Safe File Handling
 ```python
 # ✅ Always use context manager
 with open('dataset.pkl', 'rb') as f:
